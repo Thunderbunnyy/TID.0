@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">TID.0</string>
+    <string name="please_login_first">Please Login First</string>
+    <string name="username">Divalto Id</string>
+    <string name="login">Login</string>
+    <string name="divalto_id">Divalto Id</string>
+    <string name="password">Password</string>
+    <string name="btnScan">Entrer</string>
+    <string name="scan_palette"> Entrer numero palette</string>
+    <string name="n_of">N°Of</string>
+    <string name="code_article">Code Article</string>
+    <string name="desarticle">Désignation</string>
+    <string name="quantite">Quantité</string>
+    <string name="destination">Destination</string>
+    <string name="date">date</string>
+    <string name="scanner">Scanner</string>
+    <string name="cancel">Annuler</string>
+    <string name="valider">Valider</string>
+    <string name="cloturer">cloturer</string>
+    <string name="name">username</string>
+    <string name="r_ception">Réception</string>
+    <string name="transfert">Transfert</string>
+</resources>
