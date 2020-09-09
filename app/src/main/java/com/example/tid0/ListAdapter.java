@@ -46,16 +46,17 @@ public class ListAdapter extends ArrayAdapter<Transfert> {
             quantity = v.findViewById(R.id.quantity);
             statusTV = v.findViewById(R.id.status);
 
-            if (designation != null) {
+            if (designation != null)
                 designation.setText(p.getDES());
-            }
 
-            if (of != null) {
-                of.setText(p.getUNUMOF());
-            }
+            if (of != null)
+                of.setText(String.valueOf(p.getUNUMOF()));
 
-            if (quantity != null) {
+            if (quantity != null)
                 quantity.setText(String.valueOf(p.getCDQTE()));
+
+            if(statusTV!=null){
+
             }
         }
 

@@ -44,7 +44,6 @@ public class ScanActivity extends AppCompatActivity {
 
     Button btn_scan;
     Button btn_valider;
-    Button btn_cloturer;
     EditText info;
     TextView of;
     TextView codeArticle;
@@ -85,7 +84,7 @@ public class ScanActivity extends AppCompatActivity {
 
         Button btn_entrer = findViewById(R.id.btn_edittext);
 
-        btn_cloturer.findViewById(R.id.btn_cloturer);
+        Button btn_cloturer = findViewById(R.id.btn_cloturer);
         btn_cloturer.setVisibility(View.INVISIBLE);
 
         btn_cloturer.setOnClickListener(new View.OnClickListener() {
@@ -147,13 +146,8 @@ public class ScanActivity extends AppCompatActivity {
                         LinearLayout infoLayout1 = findViewById(R.id.info_layout);
                         infoLayout1.setVisibility(View.INVISIBLE);
 
-                        lv.setVisibility(View.VISIBLE);
-
-                        customAdapter = new ListAdapter(this, R.layout.row_item, transfertList);
-                        lv.setAdapter(customAdapter);
-
                         transfertList.add(transfert);
-                        customAdapter.notifyDataSetChanged();
+
                         //recyclerView.setVisibility(View.VISIBLE);
 
                     }else{
@@ -319,7 +313,6 @@ public class ScanActivity extends AppCompatActivity {
                             transfert.setDEPO(rsf.getString("DEPO"));
                             transfert.setSREF1(rsf.getString("SREF1"));
                             //transfert.setCDQTE(rsf.getDouble("CDQTE"));
-                            transfert.setCDQTE(Integer.parseInt(quantity.getText().toString()));
                             transfert.setREFUN(rsf.getString("REFUN"));
                             transfert.setSENS(rsf.getInt("SENS"));
                             transfert.setN_OF(rsf.getString("N°OF"));
@@ -329,8 +322,12 @@ public class ScanActivity extends AppCompatActivity {
                             of.setText(rsf.getString("UNUMOF"));
                             codeArticle.setText(rsf.getString("REF"));
                             quantity.setText(String.valueOf(rsf.getDouble("CDQTE")));
+
+                            transfert.setCDQTE(Double.parseDouble(quantity.getText().toString().trim()));
+
                             date.setText(rsf.getString("CDDT"));
                             desArticle.setText(rsf.getString("DES"));
+
                         }
                 }
 
@@ -351,7 +348,10 @@ public class ScanActivity extends AppCompatActivity {
             LinearLayout infoLayout = findViewById(R.id.info_layout);
             infoLayout.setVisibility(View.VISIBLE);
 
-            btn_cloturer.setVisibility(View.INVISIBLE);
+            customAdapter = new ListAdapter(ScanActivity.this, R.layout.row_item, transfertList);
+            lv.setAdapter(customAdapter);
+            customAdapter.notifyDataSetChanged();
+            lv.setVisibility(View.VISIBLE);
 
             /*RecyclerView recyclerView = findViewById(R.id.recyclerView);
             recyclerView.setVisibility(View.INVISIBLE);*/
