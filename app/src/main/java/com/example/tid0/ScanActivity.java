@@ -137,38 +137,45 @@ public class ScanActivity extends AppCompatActivity {
             if (transfert != null) {
 
                 try {
-                    if(q.equals(String.valueOf(rsf.getDouble("CDQTE")))){
 
-                        transfert.setSTATUS(1);
-                        db.transfertDAO().insert(transfert);
-                        transfert = new Transfert();
+                        if(q.equals(String.valueOf(rsf.getDouble("CDQTE")))){
 
-                        LinearLayout infoLayout1 = findViewById(R.id.info_layout);
-                        infoLayout1.setVisibility(View.INVISIBLE);
+                            transfert.setSTATUS(1);
+                            db.transfertDAO().insert(transfert);
+                            transfert = new Transfert();
 
-                        transfertList.add(transfert);
+                            infoLayout.setVisibility(View.INVISIBLE);
+                            transfertList.add(transfert);
 
-                        //recyclerView.setVisibility(View.VISIBLE);
+                            lv.setVisibility(View.VISIBLE);
+                            customAdapter.notifyDataSetChanged();
+                            //recyclerView.setVisibility(View.VISIBLE);
 
-                    }else{
+                        }else{
 
-                        transfert.setSTATUS(0);
-                        db.transfertDAO().insert(transfert);
-                        transfert = new Transfert();
+                            transfert.setSTATUS(0);
+                            db.transfertDAO().insert(transfert);
+                            transfert = new Transfert();
 
-                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
-                        alertDialogBuilder.setMessage("Veuillez vérifier la quantité");
-                        alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
+                            alertDialogBuilder.setMessage("Veuillez vérifier la quantité");
+                            alertDialogBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
 
-                        AlertDialog alertDialog = alertDialogBuilder.create();
-                        alertDialog.show();
-                    }
+                            AlertDialog alertDialog = alertDialogBuilder.create();
+                            alertDialog.show();
+
+                            infoLayout.setVisibility(View.INVISIBLE);
+                            transfertList.add(transfert);
+                            lv.setVisibility(View.VISIBLE);
+                            customAdapter.notifyDataSetChanged();
+                        }
+
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -182,8 +189,7 @@ public class ScanActivity extends AppCompatActivity {
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LinearLayout infoLayout1 = findViewById(R.id.info_layout);
-                infoLayout1.setVisibility(View.INVISIBLE);
+                infoLayout.setVisibility(View.INVISIBLE);
                 //recyclerView.setVisibility(View.VISIBLE);
             }
         });
@@ -227,15 +233,10 @@ public class ScanActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
 
-                //AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
                 String currentString = result.getContents();
                 String[] separated = currentString.split("P");
                 numOf = separated[0];
                 palette = separated[1].trim();
-
-                /*AlertDialog dialog = builder.create();
-                dialog.show();*/
 
                 info.setText(result.getContents());
 
@@ -313,6 +314,7 @@ public class ScanActivity extends AppCompatActivity {
                             transfert.setDEPO(rsf.getString("DEPO"));
                             transfert.setSREF1(rsf.getString("SREF1"));
                             //transfert.setCDQTE(rsf.getDouble("CDQTE"));
+
                             transfert.setREFUN(rsf.getString("REFUN"));
                             transfert.setSENS(rsf.getInt("SENS"));
                             transfert.setN_OF(rsf.getString("N°OF"));
@@ -323,11 +325,10 @@ public class ScanActivity extends AppCompatActivity {
                             codeArticle.setText(rsf.getString("REF"));
                             quantity.setText(String.valueOf(rsf.getDouble("CDQTE")));
 
-                            transfert.setCDQTE(Double.parseDouble(quantity.getText().toString().trim()));
+                            transfert.setCDQTE(Double.parseDouble(quantity.getText().toString()));
 
                             date.setText(rsf.getString("CDDT"));
                             desArticle.setText(rsf.getString("DES"));
-
                         }
                 }
 
@@ -348,10 +349,10 @@ public class ScanActivity extends AppCompatActivity {
             LinearLayout infoLayout = findViewById(R.id.info_layout);
             infoLayout.setVisibility(View.VISIBLE);
 
+            lv.setVisibility(View.VISIBLE);
             customAdapter = new ListAdapter(ScanActivity.this, R.layout.row_item, transfertList);
             lv.setAdapter(customAdapter);
             customAdapter.notifyDataSetChanged();
-            lv.setVisibility(View.VISIBLE);
 
             /*RecyclerView recyclerView = findViewById(R.id.recyclerView);
             recyclerView.setVisibility(View.INVISIBLE);*/

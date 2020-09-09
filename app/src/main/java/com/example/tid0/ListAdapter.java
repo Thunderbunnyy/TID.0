@@ -1,6 +1,7 @@
 package com.example.tid0;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +57,11 @@ public class ListAdapter extends ArrayAdapter<Transfert> {
                 quantity.setText(String.valueOf(p.getCDQTE()));
 
             if(statusTV!=null){
-
+                if(p.getSTATUSENT()==1){
+                    statusTV.setText("Transféré");
+                    int color = Color.parseColor("#008000");
+                    statusTV.setBackgroundColor(color);
+                }
             }
         }
 

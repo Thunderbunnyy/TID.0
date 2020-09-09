@@ -1,50 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="5dp"
+    android:layout_height="80dp"
+    android:padding="2dp"
     android:weightSum="4">
-    
+
     <TextView
-        android:layout_weight="1"
         android:id="@+id/des"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:textColor="@color/colorPrimaryDark"
-        android:text="designation"/>
-    <TextView
         android:layout_weight="1"
+        android:text="designation"
+        android:textColor="@color/colorPrimaryDark" />
+
+    <TextView
         android:id="@+id/quantity"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="16dp"
-        android:text="quantité"/>
-    <TextView
         android:layout_weight="1"
+        android:text="quantité"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16dp" />
+
+    <TextView
         android:id="@+id/of"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="OF "
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="16dp"
-        android:text="OF "/>
+        android:textSize="16dp" />
 
     <TextView
-        android:layout_weight="1"
         android:id="@+id/status"
-        android:background="#2f6699"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="#660000"
+        android:padding="2dp"
         android:text="non préparé"
         android:textColor="#fff"
-        android:layout_width="0dp"
-        android:padding="2dp"
-        android:textSize="16dp"
-        android:layout_height="match_parent"/>
-
-
-
-
+        android:textSize="16dp" />
 
 
 </LinearLayout>
