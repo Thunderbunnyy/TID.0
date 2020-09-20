@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_root"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/admin"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"
+        android:textColor="#2f6699"
+        android:textSize="20sp"
+        />
+
+    <TextView
+        android:id="@+id/error_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/verif"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"
+        android:textColor="#E92C0C"
+        android:textSize="15sp"
+        android:visibility="invisible"
+        android:layout_marginStart="5dp"
+        />
+
+    <EditText
+        android:id="@+id/id_admin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edtdesign"
+        android:hint="@string/username"
+        android:layout_marginTop="10dp"
+        >
+
+    </EditText>
+
+    <EditText
+        android:id="@+id/pw_admin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edtdesign"
+        android:layout_marginTop="20dp"
+        android:hint="@string/password"
+        >
+
+    </EditText>
+
+
+
+</LinearLayout>

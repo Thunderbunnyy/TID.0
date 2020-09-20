@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">TID.0</string>
-    <string name="please_login_first">Please Login First</string>
-    <string name="username">Divalto Id</string>
-    <string name="login">Login</string>
-    <string name="divalto_id">Divalto Id</string>
-    <string name="password">Password</string>
+    <string name="please_login_first">Veuillez se connecter</string>
+    <string name="username">Username</string>
+    <string name="login">Se connecter</string>
+    <string name="nom_prenom">Nom et prénom</string>
+    <string name="password">Mot de passe</string>
     <string name="btnScan">Entrer</string>
     <string name="scan_palette"> Entrer numero palette</string>
     <string name="n_of">N°Of</string>
@@ -20,4 +20,9 @@
     <string name="name">username</string>
     <string name="r_ception">Réception</string>
     <string name="transfert">Transfert</string>
+    <string name="signin">Créer un compte</string>
+    <string name="create_acc">Créer un compte</string>
+    <string name="admin">Veuillez s\'identifier</string>
+    <string name="verif">Vérifier le username et mot de passe</string>
+    <string name="exist">Compte existe déjâ</string>
 </resources>
