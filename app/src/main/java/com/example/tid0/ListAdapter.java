@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -63,6 +64,8 @@ public class ListAdapter extends ArrayAdapter<Transfert> {
                     statusTV.setBackgroundColor(color);
                 }
             }
+        }else{
+            Toast.makeText(mContext, "famech", Toast.LENGTH_SHORT).show();
         }
 
         return v;

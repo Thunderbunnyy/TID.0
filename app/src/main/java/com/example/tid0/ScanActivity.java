@@ -9,6 +9,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +19,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +36,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -59,6 +62,7 @@ public class ScanActivity extends AppCompatActivity {
     Statement stmtf;
     ListView lv;
     ListAdapter customAdapter;
+    public static final String USER = "UserPreferences";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,18 +88,49 @@ public class ScanActivity extends AppCompatActivity {
 
         Button btn_entrer = findViewById(R.id.btn_edittext);
 
+
         Button btn_cloturer = findViewById(R.id.btn_cloturer);
-        btn_cloturer.setVisibility(View.INVISIBLE);
 
         btn_cloturer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(transfert.getSTATUS()==0){
-                    transfert.setSTATUSENT(0);
-                    // TODO: 08/09/2020 go to home screen
-                }else {
+
+                Log.e("status", "" + transfert.getSTATUS());
+//                if(transfert.getSTATUS()==0){
+//                    transfert.setSTATUSENT(0);
+//
+//                    db.transfertDAO().insert(transfert);
+//                    transfert = new Transfert();
+//                    transfertList.add(transfert);
+//
+//                    SyncCloture_cmd sendData = new SyncCloture_cmd();
+//                    sendData.execute("");
+//
+//                }else
+                  if(transfert.getSTATUS()==2 && transfert != null){
                     transfert.setSTATUSENT(2);
-                    // TODO: 08/09/2020 go to home screen
+
+                    db.transfertDAO().insert(transfert);
+
+                    transfertList.add(transfert);
+
+                    SyncCloture_cmd sendData = new SyncCloture_cmd();
+                    sendData.execute("");
+
+                      transfert = new Transfert();
+                    // todo home screen
+
+                }else if(transfert.getSTATUS()==1 && transfert != null){
+                    transfert.setSTATUSENT(1);
+
+                    db.transfertDAO().insert(transfert);
+
+                    transfertList.add(transfert);
+
+                    SyncCloture_cmd sendData = new SyncCloture_cmd();
+                    sendData.execute("");
+
+                      transfert = new Transfert();
                 }
             }
         });
@@ -141,21 +176,22 @@ public class ScanActivity extends AppCompatActivity {
                         if(q.equals(String.valueOf(rsf.getDouble("CDQTE")))){
 
                             transfert.setSTATUS(1);
-                            db.transfertDAO().insert(transfert);
-                            transfert = new Transfert();
+                            //db.transfertDAO().insert(transfert);
+                            //transfert = new Transfert();
 
                             infoLayout.setVisibility(View.INVISIBLE);
-                            transfertList.add(transfert);
-
+                            //transfertList.add(transfert);
+                            //customAdapter.notifyDataSetChanged();
                             lv.setVisibility(View.VISIBLE);
                             customAdapter.notifyDataSetChanged();
+
                             //recyclerView.setVisibility(View.VISIBLE);
 
                         }else{
 
-                            transfert.setSTATUS(0);
-                            db.transfertDAO().insert(transfert);
-                            transfert = new Transfert();
+                            transfert.setSTATUS(2);
+                           // db.transfertDAO().insert(transfert);
+                            //transfert = new Transfert();
 
                             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
@@ -171,7 +207,10 @@ public class ScanActivity extends AppCompatActivity {
                             alertDialog.show();
 
                             infoLayout.setVisibility(View.INVISIBLE);
-                            transfertList.add(transfert);
+
+                            //transfertList.add(transfert);
+                            //customAdapter.notifyDataSetChanged();
+
                             lv.setVisibility(View.VISIBLE);
                             customAdapter.notifyDataSetChanged();
                         }
@@ -180,9 +219,13 @@ public class ScanActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-            } else {
+
+
+            }else{
                 Toast.makeText(ScanActivity.this, "nope", Toast.LENGTH_SHORT).show();
             }
+
+
 
         });
 
@@ -254,6 +297,7 @@ public class ScanActivity extends AppCompatActivity {
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+
     }
 
 
@@ -270,6 +314,9 @@ public class ScanActivity extends AppCompatActivity {
         String msg = "Internet/DB_Credentials/Windows_FireWall_TurnOn Error, See Android Monitor in the bottom For details!";
 
         ProgressDialog progress;
+
+        SharedPreferences prefs = getSharedPreferences(USER, MODE_PRIVATE);
+        String usr = prefs.getString("username", "No name defined");
 
 
         @Override
@@ -299,14 +346,17 @@ public class ScanActivity extends AppCompatActivity {
                     query3 = " select * from ZVW_TRANSFERT where UNUMOF=" + numOf + " and UNUMP=" + palette;
                     Log.e("query3", "" + query3);
 
-                    stmtf = conn.createStatement();
+                    stmtf = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
                     rsf = stmtf.executeQuery(query3);
+
 
                             while (rsf.next()) {
 
                             String stat5 = rsf.getString("DES");
                             Log.e("stat5", rsf.getInt("CDNO") + "");
                             transfert = new Transfert();
+
+                            transfert.setUser(usr);
                             transfert.setCDNO(rsf.getInt("CDNO"));
                             transfert.setDES(rsf.getString("DES"));
                             transfert.setCDDT(rsf.getString("CDDT"));
@@ -321,6 +371,7 @@ public class ScanActivity extends AppCompatActivity {
                             transfert.setUNUMOF(rsf.getInt("UNUMOF"));
                             transfert.setUNUMP(rsf.getInt("UNUMP"));
 
+
                             of.setText(rsf.getString("UNUMOF"));
                             codeArticle.setText(rsf.getString("REF"));
                             quantity.setText(String.valueOf(rsf.getDouble("CDQTE")));
@@ -330,6 +381,10 @@ public class ScanActivity extends AppCompatActivity {
                             date.setText(rsf.getString("CDDT"));
                             desArticle.setText(rsf.getString("DES"));
                         }
+
+                    rsf.beforeFirst();
+                    rsf.next();
+
                 }
 
             } catch (Exception e) {
@@ -349,14 +404,15 @@ public class ScanActivity extends AppCompatActivity {
             LinearLayout infoLayout = findViewById(R.id.info_layout);
             infoLayout.setVisibility(View.VISIBLE);
 
-            lv.setVisibility(View.VISIBLE);
+            lv.setVisibility(View.INVISIBLE);
+
             customAdapter = new ListAdapter(ScanActivity.this, R.layout.row_item, transfertList);
+
             lv.setAdapter(customAdapter);
             customAdapter.notifyDataSetChanged();
 
             /*RecyclerView recyclerView = findViewById(R.id.recyclerView);
             recyclerView.setVisibility(View.INVISIBLE);*/
-
 
             if (transfert == null) {
                 Toast.makeText(ScanActivity.this, "Nothing there", Toast.LENGTH_SHORT).show();
@@ -364,6 +420,90 @@ public class ScanActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(ScanActivity.this, "Showing ", Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    private class SyncCloture_cmd extends AsyncTask<String, String, String> {
+        String msg = "Internet/DB_Credentials/Windows_FireWall_TurnOn Error, See Android Monitor in the bottom For details!";
+
+        ProgressDialog progress;
+
+
+        @Override
+        protected void onPreExecute() //Starts the progress dailog
+        {
+            progress = ProgressDialog.show(ScanActivity.this, "",
+                    " Chargement...", true);
+        }
+
+
+        @Override
+        protected String doInBackground(String... strings)  // Connect to the database, write query and add items to array list
+        {
+
+            progress.show();
+            Connection conn;
+
+            try {
+                Class.forName("net.sourceforge.jtds.jdbc.Driver");
+                conn = new ConnectionClass().CNX();
+                if (conn == null) {
+                    Log.e("query3", "******************");
+
+                } else {
+
+                    PreparedStatement ps;
+
+
+                    for(int i=0 ; i <= transfertList.size(); i++) {
+
+                        ps = conn.
+                                prepareStatement("insert into SCSI_TRF_MOUV " +
+                                        "(userId, statusMOUV, statusENT, CDDT, UNUMOF,UNUMP,CDNO,REF,DES,SREF1,DEPO,destination, CDQTE,REFUN,SENS,NoF) " +
+                                "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+
+
+                        ps.setString(1, transfertList.get(i).getUser());
+                        ps.setInt(2, transfertList.get(i).getSTATUS());
+                        ps.setInt(3, transfertList.get(i).getSTATUSENT());
+                        ps.setString(4, transfertList.get(i).getCDDT());
+                        ps.setInt(5, transfertList.get(i).getUNUMOF());
+                        ps.setInt(6, transfertList.get(i).getUNUMP());
+                        ps.setInt(7, transfertList.get(i).getCDNO());
+                        ps.setString(8, transfertList.get(i).getREF());
+                        ps.setString(9, transfertList.get(i).getDES());
+                        ps.setString(10, transfertList.get(i).getSREF1());
+                        ps.setString(11, transfertList.get(i).getDEPO());
+                        ps.setString(12, transfertList.get(i).getDestination());
+                        ps.setDouble(13, transfertList.get(i).getCDQTE());
+                        ps.setString(14, transfertList.get(i).getREFUN());
+                        ps.setInt(15, transfertList.get(i).getSENS());
+                        ps.setString(16, transfertList.get(i).getN_OF());
+
+                        int x;
+                        x = ps.executeUpdate();
+
+                        
+
+                    }
+
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                Writer writer = new StringWriter();
+                e.printStackTrace(new PrintWriter(writer));
+                msg = writer.toString();
+
+            }
+            return msg;
+        }
+
+        @Override
+        protected void onPostExecute(String msg) // dismissing progress dialoge, showing error and setting up my ListView
+        {
+            progress.dismiss();
+
         }
     }
 }

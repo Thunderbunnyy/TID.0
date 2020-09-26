@@ -11,8 +11,11 @@ public class Transfert {
     @ColumnInfo(name = "_id")
     private int _id;
 
-    @ColumnInfo(name = "UID")
-    private int UID;
+    @ColumnInfo(name = "user")
+    private String user;
+
+    @ColumnInfo(name = "destination")
+    private String destination;
 
     @ColumnInfo(name = "STATUS")
     private int STATUS;
@@ -33,13 +36,13 @@ public class Transfert {
     private int CDNO;
 
     @ColumnInfo(name = "REF")
-    private String REF ;
+    private String REF;
 
     @ColumnInfo(name = "DES")
-    private String DES ;
+    private String DES;
 
     @ColumnInfo(name = "SREF1")
-    private String SREF1 ;
+    private String SREF1;
 
     @ColumnInfo(name = "DEPO")
     private String DEPO;
@@ -64,12 +67,20 @@ public class Transfert {
         this._id = _id;
     }
 
-    public int getUID() {
-        return UID;
+    public String getDestination() {
+        return destination;
     }
 
-    public void setUID(int UID) {
-        this.UID = UID;
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 
     public int getSTATUS() {

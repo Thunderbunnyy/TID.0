@@ -81,7 +81,7 @@ public class ReceptionActivity extends AppCompatActivity {
 
         Button btn_entrer = findViewById(R.id.btn_edittext);
 
-        btn_cloturer.findViewById(R.id.btn_cloturer);
+        //btn_cloturer.findViewById(R.id.btn_cloturer);
         btn_cloturer.setVisibility(View.INVISIBLE);
 
         btn_cloturer.setOnClickListener(new View.OnClickListener() {
