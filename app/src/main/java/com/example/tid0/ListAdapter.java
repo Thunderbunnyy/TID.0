@@ -62,11 +62,16 @@ public class ListAdapter extends ArrayAdapter<Transfert> {
                     statusTV.setText("Transféré");
                     int color = Color.parseColor("#008000");
                     statusTV.setBackgroundColor(color);
+                }else if(p.getSTATUSENT()==2){
+                    statusTV.setText("Anomalie");
+                    int color = Color.parseColor("#FD6A02");
+                    statusTV.setBackgroundColor(color);
                 }
             }
-        }else{
-            Toast.makeText(mContext, "famech", Toast.LENGTH_SHORT).show();
         }
+//        else{
+//            Toast.makeText(mContext, "famech", Toast.LENGTH_SHORT).show();
+//        }
 
         return v;
     }

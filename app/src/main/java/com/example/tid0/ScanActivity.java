@@ -118,7 +118,7 @@ public class ScanActivity extends AppCompatActivity {
                     sendData.execute("");
 
                       transfert = new Transfert();
-                    // todo home screen
+
 
                 }else if(transfert.getSTATUS()==1 && transfert != null){
                     transfert.setSTATUSENT(1);
@@ -411,12 +411,12 @@ public class ScanActivity extends AppCompatActivity {
             /*RecyclerView recyclerView = findViewById(R.id.recyclerView);
             recyclerView.setVisibility(View.INVISIBLE);*/
 
-            if (transfert == null) {
-                Toast.makeText(ScanActivity.this, "Nothing there", Toast.LENGTH_SHORT).show();
-
-            } else {
-                Toast.makeText(ScanActivity.this, "Showing ", Toast.LENGTH_SHORT).show();
-            }
+//            if (transfert == null) {
+//                Toast.makeText(ScanActivity.this, "Nothing there", Toast.LENGTH_SHORT).show();
+//
+//            } else {
+//                Toast.makeText(ScanActivity.this, "Showing ", Toast.LENGTH_SHORT).show();
+//            }
         }
     }
 
@@ -501,6 +501,9 @@ public class ScanActivity extends AppCompatActivity {
         protected void onPostExecute(String msg) // dismissing progress dialoge, showing error and setting up my ListView
         {
             progress.dismiss();
+
+            lv.setVisibility(View.VISIBLE);
+            customAdapter.notifyDataSetChanged();
 
         }
     }

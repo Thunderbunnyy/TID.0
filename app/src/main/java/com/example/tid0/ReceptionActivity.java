@@ -488,6 +488,9 @@ private class SyncData_cmd extends AsyncTask<String, String, String> {
         {
             progress.dismiss();
 
+            lv.setVisibility(View.VISIBLE);
+            customAdapter.notifyDataSetChanged();
+
         }
     }
 }
