@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog,int id) {
 
-                                    if(userInput.getText().toString().equals("admin") && pwInput.getText().toString().equals("1234")){
+                                    if(userInput.getText().toString().equals("admin") && pwInput.getText().toString().equals("43whFrueeE!B")){
 
                                        // Toast.makeText(MainActivity.this, "s7i7", Toast.LENGTH_SHORT).show();
                                         Intent signIn = new Intent(MainActivity.this, SignIn.class);

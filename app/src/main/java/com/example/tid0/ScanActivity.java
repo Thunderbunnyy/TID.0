@@ -110,9 +110,9 @@ public class ScanActivity extends AppCompatActivity {
                   if(transfert.getSTATUS()==2 && transfert != null){
                     transfert.setSTATUSENT(2);
 
-                    db.transfertDAO().insert(transfert);
-
-                    transfertList.add(transfert);
+                    db.transfertDAO().update(transfert);
+                    for (int i=0; i<transfertList.size(); i++)
+                    transfertList.set(i,transfert);
 
                     SyncCloture_cmd sendData = new SyncCloture_cmd();
                     sendData.execute("");
@@ -123,9 +123,9 @@ public class ScanActivity extends AppCompatActivity {
                 }else if(transfert.getSTATUS()==1 && transfert != null){
                     transfert.setSTATUSENT(1);
 
-                    db.transfertDAO().insert(transfert);
-
-                    transfertList.add(transfert);
+                    db.transfertDAO().update(transfert);
+                      for (int i=0; i<transfertList.size(); i++)
+                          transfertList.set(i,transfert);
 
                     SyncCloture_cmd sendData = new SyncCloture_cmd();
                     sendData.execute("");
@@ -176,21 +176,20 @@ public class ScanActivity extends AppCompatActivity {
                         if(q.equals(String.valueOf(rsf.getDouble("CDQTE")))){
 
                             transfert.setSTATUS(1);
-                            //db.transfertDAO().insert(transfert);
+                            db.transfertDAO().insert(transfert);
                             //transfert = new Transfert();
 
                             infoLayout.setVisibility(View.INVISIBLE);
-                            //transfertList.add(transfert);
-                            //customAdapter.notifyDataSetChanged();
                             lv.setVisibility(View.VISIBLE);
+
+                            transfertList.add(transfert);
                             customAdapter.notifyDataSetChanged();
 
-                            //recyclerView.setVisibility(View.VISIBLE);
 
                         }else{
 
                             transfert.setSTATUS(2);
-                           // db.transfertDAO().insert(transfert);
+                            db.transfertDAO().insert(transfert);
                             //transfert = new Transfert();
 
                             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
@@ -207,12 +206,13 @@ public class ScanActivity extends AppCompatActivity {
                             alertDialog.show();
 
                             infoLayout.setVisibility(View.INVISIBLE);
-
-                            //transfertList.add(transfert);
-                            //customAdapter.notifyDataSetChanged();
-
                             lv.setVisibility(View.VISIBLE);
+
+                            transfertList.add(transfert);
                             customAdapter.notifyDataSetChanged();
+
+
+
                         }
 
                 } catch (SQLException e) {
@@ -404,12 +404,9 @@ public class ScanActivity extends AppCompatActivity {
             LinearLayout infoLayout = findViewById(R.id.info_layout);
             infoLayout.setVisibility(View.VISIBLE);
 
-            lv.setVisibility(View.INVISIBLE);
-
             customAdapter = new ListAdapter(ScanActivity.this, R.layout.row_item, transfertList);
-
             lv.setAdapter(customAdapter);
-            customAdapter.notifyDataSetChanged();
+
 
             /*RecyclerView recyclerView = findViewById(R.id.recyclerView);
             recyclerView.setVisibility(View.INVISIBLE);*/
@@ -459,7 +456,7 @@ public class ScanActivity extends AppCompatActivity {
 
                         ps = conn.
                                 prepareStatement("insert into SCSI_TRF_MOUV " +
-                                        "(userId, statusMOUV, statusENT, CDDT, UNUMOF,UNUMP,CDNO,REF,DES,SREF1,DEPO,destination, CDQTE,REFUN,SENS,NoF) " +
+                                        "(username, statusMOUV, statusENT, CDDT, UNUMOF,UNUMP,CDNO,REF,DES,SREF1,DEPO,destination, CDQTE,REFUN,SENS,NoF) " +
                                 "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
 
@@ -483,7 +480,8 @@ public class ScanActivity extends AppCompatActivity {
                         int x;
                         x = ps.executeUpdate();
 
-                        
+                        Log.e("usesr", "" + transfertList.get(i).getUser());
+                        Log.e("des", "" + transfertList.get(i).getDES());
 
                     }
 
